@@ -9,20 +9,32 @@
     <div class="container" style="max-width: 600px; background: white; padding: 30px; border-radius: 8px; margin-top: 30px;">
         <h1>Chỉnh sửa thông tin</h1>
         <form action="{{ url_for('edit', id=lecturer['lecturer_id']) }}" method="POST">
-            <label>Họ và Tên:</label>
-            <input type="text" name="name" value="{{ lecturer['name'] }}" required>
+    <label>Họ và Tên:</label>
+    <input type="text" name="name" value="{{ lecturer['name'] }}" required>
 
-            <label>Học hàm/Học vị:</label>
-            <input type="text" name="title" value="{{ lecturer['title'] }}">
+    <label>Học hàm/Học vị:</label>
+    <input type="text" name="title" value="{{ lecturer['title'] }}">
 
-            <label>Chức vụ:</label>
-            <input type="text" name="position" value="{{ lecturer['position'] }}">
+    <label>Chức vụ:</label>
+    <input type="text" name="position" value="{{ lecturer['position'] }}">
 
-            <div style="margin-top: 20px;">
-                <button type="submit">Cập nhật</button>
-                <a href="/" style="margin-left: 15px; color: #666; text-decoration: none;">Hủy bỏ</a>
-            </div>
-        </form>
+    <label>Bộ môn:</label>
+    <input type="text" name="department" value="{{ lecturer['department'] }}">
+
+    <label>Lĩnh vực nghiên cứu:</label>
+    <input type="text" name="research_field" value="{{ lecturer['research_field'] }}">
+
+    <label>Email:</label>
+    <input type="email" name="email" value="{{ lecturer['email'] }}" required>
+
+    <label>Số điện thoại:</label>
+    <input type="text" name="phone" value="{{ lecturer['phone'] }}">
+
+    <div style="margin-top: 20px;">
+        <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Cập nhật</button>
+        <a href="/" style="margin-left: 15px; color: #666; text-decoration: none;">Hủy bỏ</a>
+    </div>
+</form>
     </div>
 </body>
 </html>

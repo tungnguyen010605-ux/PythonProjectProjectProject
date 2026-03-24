@@ -80,10 +80,21 @@ def logout():
 def add():
     if not session.get('logged_in'): return redirect(url_for('login'))
     if request.method == 'POST':
-        data = (request.form['name'], request.form['title'], request.form['position'],
-                request.form['email'], request.form['phone'])  # [cite: 30, 67]
+        # Added department and research_field to the data tuple
+        data = (
+            request.form['name'],
+            request.form['title'],
+            request.form['position'],
+            request.form['email'],
+            request.form['phone'],
+            request.form['department'],
+            request.form['research_field']
+        )
         conn = get_db_connection()
-        conn.execute('INSERT INTO lecturer (name, title, position, email, phone) VALUES (?,?,?,?,?)', data)
+        # Updated SQL to include new columns [cite: 30]
+        conn.execute('''INSERT INTO lecturer 
+                        (name, title, position, email, phone, department, research_field) 
+                        VALUES (?,?,?,?,?,?,?)''', data)
         conn.commit()
         conn.close()
         flash('Lecturer Added Successfully!')
@@ -96,8 +107,20 @@ def edit(id):
     if not session.get('logged_in'): return redirect(url_for('login'))
     conn = get_db_connection()
     if request.method == 'POST':
-        data = (request.form['name'], request.form['title'], request.form['position'], id)
-        conn.execute('UPDATE lecturer SET name=?, title=?, position=? WHERE lecturer_id=?', data)
+        # Updated to include department and research_field
+        data = (
+            request.form['name'],
+            request.form['title'],
+            request.form['position'],
+            request.form['department'],
+            request.form['research_field'],
+            request.form['email'],
+            request.form['phone'],
+            id
+        )
+        conn.execute('''UPDATE lecturer SET 
+                        name=?, title=?, position=?, department=?, research_field=?, email=?, phone=? 
+                        WHERE lecturer_id=?''', data)
         conn.commit()
         conn.close()
         flash('Lecturer Updated!')
