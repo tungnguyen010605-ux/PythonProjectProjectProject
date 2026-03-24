@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Thông tin Giảng viên: {{ lecturer['name'] }}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header" style="display: flex; gap: 40px; margin-top: 40px;">
+            <div class="profile-img">
+                <img src="https://via.placeholder.com/250x300" alt="{{ lecturer['name'] }}" style="border: 1px solid #ccc; padding: 5px;">
+            </div>
+
+            <div class="profile-info">
+                <h1 style="margin-top: 0;">{{ lecturer['title'] }} {{ lecturer['name'] }}</h1>
+                <h3 style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 5px;">GIỚI THIỆU</h3>
+                <p><strong>Chức vụ:</strong> {{ lecturer['position'] }}</p>
+                <p><strong>Bộ môn:</strong> {{ lecturer['department'] }}</p>
+                <p><strong>Lĩnh vực nghiên cứu:</strong> {{ lecturer['research_field'] }}</p>
+
+                <h3 style="color: #333; margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px;">LIÊN HỆ</h3>
+                <p><strong>Số điện thoại:</strong> {{ lecturer['phone'] }}</p>
+                <p><strong>Email:</strong> {{ lecturer['email'] }}</p>
+            </div>
+        </div>
+
+        <div class="profile-details">
+            <div class="section">
+                <h2>QUÁ TRÌNH ĐÀO TẠO</h2>
+                <ul>
+                    {% for edu in education %}
+                    <li>{{ edu['degree'] }} - {{ edu['university'] }} ({{ edu['year'] }}) </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>KINH NGHIỆM LÀM VIỆC</h2>
+                <ul>
+                    {% for exp in experience %}
+                    <li>{{ exp['start_year'] }} - {{ exp['end_year'] if exp['end_year'] else 'Hiện tại' }}: {{ exp['position'] }} tại {{ exp['organization'] }} </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; margin-bottom: 50px;">
+            <a href="/" style="text-decoration: none; color: #0056b3; font-weight: bold;">← Quay lại danh sách</a>
+        </div>
+    </div>
+</body>
+</html>

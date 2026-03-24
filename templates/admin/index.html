@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Giảng viên - Khoa CNTT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Giảng viên - Cán bộ</h1>
+
+        <div class="filter-section">
+            <form action="/" method="GET" class="search-box">
+                <input type="text" name="search" value="{{ search_query }}" placeholder="Tìm kiếm tên hoặc chức vụ...">
+
+                <select name="sort" onchange="this.form.submit()">
+                    <option value="name" {% if current_sort == 'name' %}selected{% endif %}>Tên (A-Z)</option>
+                    <option value="position" {% if current_sort == 'position' %}selected{% endif %}>Chức vụ</option>
+                    <option value="department" {% if current_sort == 'department' %}selected{% endif %}>Bộ môn</option>
+                </select>
+
+                <button type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+
+        <div class="admin-nav" style="text-align: right; margin-bottom: 20px;">
+            {% if session.get('logged_in') %}
+                <span style="font-weight: bold; margin-right: 15px;">Chào Admin</span>
+                <a href="{{ url_for('add') }}" class="btn-add"> + Thêm Giảng viên mới</a>
+                <a href="{{ url_for('logout') }}" style="color: #dc3545; text-decoration: none; margin-left: 20px;">Đăng xuất</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" style="color: #0056b3; text-decoration: none; font-size: 0.9em;">Đăng nhập Admin</a>
+            {% endif %}
+        </div>
+
+        <div class="lecturer-grid">
+            {% for l in lecturers %}
+                <div class="card">
+                    <a href="{{ url_for('profile', id=l['lecturer_id']) }}">
+                        <img src="https://via.placeholder.com/180x220" alt="{{ l['name'] }}">
+                    </a>
+
+                    <div class="card-content">
+                        <div class="name">{{ l['title'] }} {{ l['name'] }}</div>
+                        <div class="pos">{{ l['position'] }}</div>
+                        {% if l['department'] %}
+                            <div class="dept" style="font-size: 0.8em; color: #888; margin-top: 5px;">{{ l['department'] }}</div>
+                        {% endif %}
+                    </div>
+
+                    {% if session.get('logged_in') %}
+                        <div class="admin-actions">
+                            <a href="{{ url_for('edit', id=l['lecturer_id']) }}" class="btn-edit">Sửa</a>
+                            <form action="{{ url_for('delete', id=l['lecturer_id']) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa giảng viên này?')">Xóa</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
